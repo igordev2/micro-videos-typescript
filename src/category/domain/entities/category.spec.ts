@@ -1,7 +1,8 @@
-import { validate as uuidValidate } from 'uuid'
+import { omit } from 'lodash'
+import { v4 as uuidV4 } from 'uuid'
 
 import { Category } from './category'
-import { omit } from 'lodash'
+import { UniqueEntityId } from '../../../@seedwork/domain/unique-entity-id.vo'
 
 describe('Category Unit Tests', () => {
   describe('Constructor of Category', () => {
@@ -80,29 +81,37 @@ describe('Category Unit Tests', () => {
         const category = new Category({ name: 'Movie' });
 
         expect(category.id).not.toBeNull()
-        expect(uuidValidate(category.id)).toBeTruthy()
+        expect(category.id).toBeInstanceOf(UniqueEntityId)
       })
 
       it('generate id when not informed null', () => {
         const category = new Category({ name: 'Movie' }, null);
 
         expect(category.id).not.toBeNull()
-        expect(uuidValidate(category.id)).toBeTruthy()
+        expect(category.id).toBeInstanceOf(UniqueEntityId)
       })
 
       it('generate id when not informed undefined', () => {
         const category = new Category({ name: 'Movie' }, undefined);
 
         expect(category.id).not.toBeNull()
-        expect(uuidValidate(category.id)).toBeTruthy()
+        expect(category.id).toBeInstanceOf(UniqueEntityId)
       })
 
-      it('generate id when informed uuid', () => {
-        const uuid = '9ac866b4-10d9-4308-b754-d62419145eda'
+      it('generate id when void uuid', () => {
+        const uuid = new UniqueEntityId()
         const category = new Category({ name: 'Movie' }, uuid);
 
         expect(category.id).not.toBeNull()
-        expect(uuidValidate(category.id)).toBeTruthy()
+        expect(category.id).toBeInstanceOf(UniqueEntityId)
+      })
+
+      it('generate id when informed uuid', () => {
+        const uuid = new UniqueEntityId(uuidV4())
+        const category = new Category({ name: 'Movie' }, uuid);
+
+        expect(category.id).not.toBeNull()
+        expect(category.id).toBeInstanceOf(UniqueEntityId)
       })
     })
     describe('Name field', () => {
