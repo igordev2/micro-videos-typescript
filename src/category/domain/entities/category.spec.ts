@@ -1,3 +1,5 @@
+import { validate as uuidValidate } from 'uuid'
+
 import { Category } from './category'
 import { omit } from 'lodash'
 
@@ -73,6 +75,36 @@ describe('Category Unit Tests', () => {
   })
 
   describe('Getters and Setters of Category', () => {
+    describe('Id field', () => {
+      it('generate id when not informed', () => {
+        const category = new Category({ name: 'Movie' });
+
+        expect(category.id).not.toBeNull()
+        expect(uuidValidate(category.id)).toBeTruthy()
+      })
+
+      it('generate id when not informed null', () => {
+        const category = new Category({ name: 'Movie' }, null);
+
+        expect(category.id).not.toBeNull()
+        expect(uuidValidate(category.id)).toBeTruthy()
+      })
+
+      it('generate id when not informed undefined', () => {
+        const category = new Category({ name: 'Movie' }, undefined);
+
+        expect(category.id).not.toBeNull()
+        expect(uuidValidate(category.id)).toBeTruthy()
+      })
+
+      it('generate id when informed uuid', () => {
+        const uuid = '9ac866b4-10d9-4308-b754-d62419145eda'
+        const category = new Category({ name: 'Movie' }, uuid);
+
+        expect(category.id).not.toBeNull()
+        expect(uuidValidate(category.id)).toBeTruthy()
+      })
+    })
     describe('Name field', () => {
       it('getter of field name', () => {
         const category = new Category({ name: 'Movie' })
