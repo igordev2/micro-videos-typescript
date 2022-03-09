@@ -8,7 +8,7 @@ export class UniqueEntityId {
   }
 
   private validate() {
-    const isValid =  uuidValidate(this.id)
-    if (!isValid) throw new InvalidUuidError(this.id)
+    const isValid = uuidValidate(this.id)
+    if (!isValid) throw new InvalidUuidError()
   }
 }
